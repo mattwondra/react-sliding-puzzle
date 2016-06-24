@@ -1,4 +1,6 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-ReactDOM.render(<div>Holla, world</div>, document.getElementById('app'));
+const SlidingPuzzle = require('./components/SlidingPuzzle');
+
+ReactDOM.render(<SlidingPuzzle />, document.getElementById('app'));
