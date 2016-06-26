@@ -1,48 +1,35 @@
+const BoardHelper = require('../helpers/BoardHelper');
 const React = require('react');
 
 const STYLES = {
   board: {
-    width: '50vw',
-    height: '50vw',
-    margin: '10% auto',
+    width: '40vw',
+    height: '40vw',
+    margin: '5% auto',
     border: '1px solid black',
     position: 'relative'
   }
 };
 
-const generateSolvedBoard = (width, height) => {
-  let board = [];
-  
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      board.push([x, y]);
-    }
-  }
-  
-  return board;
-};
-
 const GameBoard = React.createClass({
   propTypes: {
-    width: React.PropTypes.number,
-    height: React.PropTypes.number
+    size: React.PropTypes.number
   },
   
   getDefaultProps: function() {
-    return {
-      width: 4,
-      height: 4
+    return { 
+      size: 4
     };
   },
   
   getInitialState: function() {
     return {
-      board: generateSolvedBoard(this.props.width, this.props.height)
+      board: BoardHelper.generateSolvedBoard(this.props.size)
     }
   },
   
   componentDidUpdate: function() {
-    if (JSON.stringify(this.state.board) == JSON.stringify(generateSolvedBoard(this.props.width, this.props.height))) {
+    if (BoardHelper.isBoardSolved(this.state.board)) {
       console.log("SOLVED");
     }
   },
@@ -56,7 +43,7 @@ const GameBoard = React.createClass({
       <div style={STYLES.board}>
         {
           board.map(([x, y], id) => {
-            return <div onClick={() => this.handleClick(id)} style={{position: 'absolute', left: `${x/this.props.width * 100}%`, top: `${y/this.props.height * 100}%`, width: `${1/this.props.width*100}%`, height: `${1/this.props.height*100}%`, background: `rgb(${Math.floor(255*id/(this.props.width*this.props.height))}, ${Math.abs(100 - Math.floor(255*id/(this.props.width*this.props.height)))}, ${255 - Math.floor(255*id/(this.props.width*this.props.height))})`}} key={id}>{id+1}</div>
+            return <div onClick={() => this.handleClick(id)} style={{position: 'absolute', left: `${x/this.props.size * 100}%`, top: `${y/this.props.size * 100}%`, width: `${1/this.props.size*100}%`, height: `${1/this.props.size*100}%`, background: `rgb(${Math.floor(255*id/(this.props.size*this.props.size))}, ${Math.abs(100 - Math.floor(255*id/(this.props.size*this.props.size)))}, ${255 - Math.floor(255*id/(this.props.size*this.props.size))})`}} key={id}>{id+1}</div>
           })
         }
       </div>
@@ -64,9 +51,7 @@ const GameBoard = React.createClass({
   },
   
   handleClick: function(id) {
-    let newBoard = JSON.parse(JSON.stringify(this.state.board));
-    [newBoard[id], newBoard[newBoard.length-1]] = [newBoard[newBoard.length-1], newBoard[id]];
-    this.setState({board: newBoard});
+    this.setState({board: BoardHelper.moveTile(this.state.board, id)});
   }
 });
 
