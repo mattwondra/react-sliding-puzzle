@@ -102,17 +102,17 @@ const BoardHelper = {
     // * Search from solved to unsolved instead (go backwards)
     // * Go from both directions — solved back and unsolved forwards — and somehow meet in the middle
     let queue = [{board, path: []}];
-    let checkedBoards = [];
+    let checkedBoards = {};
 
     while(queue.length > 0) {
       let {board: curBoard, path: curPath} = queue.shift();
       if (BoardHelper.isBoardSolved(curBoard)) {
         return curPath;
       }
-      checkedBoards.push(JSON.stringify(curBoard));
+      checkedBoards[JSON.stringify(curBoard)]  = true;
       Object.keys(BoardHelper.getMovableTiles(curBoard)).forEach((tileId) => {
         const nextBoard = BoardHelper.moveTile(curBoard, tileId);
-        if (checkedBoards.indexOf(JSON.stringify(nextBoard)) === -1) {
+        if (!checkedBoards.hasOwnProperty(JSON.stringify(nextBoard))) {
           queue.push({board: nextBoard, path: curPath.concat(parseInt(tileId))});
         }
       });
