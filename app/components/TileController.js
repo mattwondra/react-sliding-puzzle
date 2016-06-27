@@ -26,7 +26,9 @@ const TileController = React.createClass({
       top: `${coordinates[1]/boardSize * 100}%`,
       width: `${1/boardSize*100}%`,
       height: `${1/boardSize*100}%`,
-      transition: 'all 100ms ease-out'
+      transition: 'all 100ms ease-out',
+      padding: 1,
+      boxSizing: 'border-box'
     };
     
     if (isHinting) {
