@@ -26,7 +26,7 @@ const GameBoard = React.createClass({
   
   getInitialState: function() {
     return {
-      board: BoardHelper.generateSolvedBoard(this.props.size),
+      board: BoardHelper.generateRandomBoard(this.props.size),
       hintTileId: undefined
     };
   },

@@ -32,6 +32,27 @@ const BoardHelper = {
   },
   
   /**
+   * Create a square `size` x `size` dimension board in a randomized state
+   */
+  generateRandomBoard: (size) => {
+    let board = BoardHelper.generateSolvedBoard(size);
+    // Keep track of the tile moved on the last turn, so we can avoid randomly
+    // flipping the same tile back and forth over and over
+    let lastMovedTileId;
+    
+    for (let i = 0; i < 30; i++) {
+      // Get all possible moves, _except_ the tile we last moved
+      let movableTileIds = BoardHelper.getMovableTileIds(board).filter((id) => id !== lastMovedTileId);
+      // Randomly pick one of the remaining tiles and move it
+      let tileToMove = movableTileIds[Math.floor(Math.random()*movableTileIds.length)];
+      board = BoardHelper.moveTile(board, tileToMove);
+      lastMovedTileId = tileToMove;
+    }
+    
+    return board;
+  },
+  
+  /**
    * Check if the given board array is solved, and return true or false.
    */
   isBoardSolved: (board) => {
@@ -91,6 +112,10 @@ const BoardHelper = {
     }, {});
   },
   
+  getMovableTileIds: (board) => {
+    return Object.keys(BoardHelper.getMovableTiles(board));
+  },
+  
   /**
    * Given a board, return an array of tileIds that represents the fewest moves
    * required to reach a solution.
@@ -110,7 +135,7 @@ const BoardHelper = {
         return curPath;
       }
       checkedBoards[JSON.stringify(curBoard)]  = true;
-      Object.keys(BoardHelper.getMovableTiles(curBoard)).forEach((tileId) => {
+      BoardHelper.getMovableTileIds(curBoard).forEach((tileId) => {
         const nextBoard = BoardHelper.moveTile(curBoard, tileId);
         if (!checkedBoards.hasOwnProperty(JSON.stringify(nextBoard))) {
           queue.push({board: nextBoard, path: curPath.concat(parseInt(tileId))});
