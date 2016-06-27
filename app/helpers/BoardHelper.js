@@ -113,7 +113,7 @@ const BoardHelper = {
       Object.keys(BoardHelper.getMovableTiles(curBoard)).forEach((tileId) => {
         const nextBoard = BoardHelper.moveTile(curBoard, tileId);
         if (checkedBoards.indexOf(JSON.stringify(nextBoard)) === -1) {
-          queue.push({board: nextBoard, path: curPath.concat(tileId)});
+          queue.push({board: nextBoard, path: curPath.concat(parseInt(tileId))});
         }
       });
     }

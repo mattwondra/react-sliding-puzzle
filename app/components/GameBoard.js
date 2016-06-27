@@ -25,7 +25,8 @@ const GameBoard = React.createClass({
   
   getInitialState: function() {
     return {
-      board: BoardHelper.generateSolvedBoard(this.props.size)
+      board: BoardHelper.generateSolvedBoard(this.props.size),
+      hintTileId: undefined
     };
   },
   
@@ -49,7 +50,8 @@ const GameBoard = React.createClass({
               coordinates={coordinates}
               boardSize={this.props.size}
               movableDirection={BoardHelper.getTileMovableDirection(this.state.board, id)}
-              onMove={this.handleTileMove}
+              onMove={this.moveTile}
+              isHinting={id === this.state.hintTileId}
               key={id}
             />
           )
@@ -58,8 +60,23 @@ const GameBoard = React.createClass({
     );
   },
   
-  handleTileMove: function(id) {
-    this.setState({board: BoardHelper.moveTile(this.state.board, id)});
+  moveTile: function(id) {
+    this.setState({
+      board: BoardHelper.moveTile(this.state.board, id)
+    });
+    this.hideHint();
+  },
+  
+  showHint() {
+    this.setState({
+      hintTileId: BoardHelper.getShortestPath(this.state.board)[0]
+    });
+  },
+  
+  hideHint() {
+    this.setState({
+      hintTileId: undefined
+    });
   }
 });
 

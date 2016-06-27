@@ -12,7 +12,7 @@ const SimpleTile = function({id, boardSize}) {
     font: '2vw Helvetica',
     fontWeight: 'bold'
   };
-  return <div style={styles}>{id}</div>;
+  return <div style={styles}>{id + 1}</div>;
 };
 
 SimpleTile.propTypes = {
