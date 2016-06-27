@@ -1,11 +1,12 @@
 const BoardHelper = require('../helpers/BoardHelper');
 const React = require('react');
 const TileController = require('./TileController');
+const {UP, DOWN, LEFT, RIGHT} = require('../AppConstants');
 
 const STYLES = {
   board: {
-    width: '40vw',
-    height: '40vw',
+    width: '80vh',
+    height: '80vh',
     margin: '5% auto',
     border: '1px solid black',
     position: 'relative'
@@ -28,6 +29,14 @@ const GameBoard = React.createClass({
       board: BoardHelper.generateSolvedBoard(this.props.size),
       hintTileId: undefined
     };
+  },
+  
+  componentDidMount: function() {
+    window.addEventListener('keydown', this.handleKeydown);
+  },
+  
+  componentWillUnmount: function() {
+    window.removeEventListener('keydown', this.handleKeydown);
   },
   
   componentDidUpdate: function() {
@@ -77,6 +86,36 @@ const GameBoard = React.createClass({
     this.setState({
       hintTileId: undefined
     });
+  },
+  
+  handleKeydown: function(evt) {
+    let direction;
+    switch(evt.keyCode) {
+      case 37:  // left arrow
+        direction = LEFT;
+        break;
+      case 38:  // up arrow
+        direction = UP;
+        break;
+      case 39:  // right arrow
+        direction = RIGHT;
+        break;
+      case 40:  // down arrow
+        direction = DOWN;
+        break;
+      case 72:  //  H key
+        this.showHint();
+        break;
+    }
+
+    if (direction !== undefined) {
+      let movableTiles = BoardHelper.getMovableTiles(this.state.board);
+      Object.keys(movableTiles).forEach((id) => {
+        if (movableTiles[id] === direction) {
+          this.moveTile(id);
+        }
+      });
+    }
   }
 });
 
