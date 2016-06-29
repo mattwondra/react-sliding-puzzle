@@ -9,7 +9,7 @@ const SimpleTile = function({id, boardSize}) {
     height: '100%',
     background: `rgb(${Math.floor(255*id/(boardSize*boardSize))}, ${Math.abs(100 - Math.floor(255*id/(boardSize*boardSize)))}, ${255 - Math.floor(255*id/(boardSize*boardSize))})`,
     color: 'rgba(255,255,255,0.6)',
-    font: '2vw Helvetica',
+    font: '200% Helvetica',
     fontWeight: 'bold'
   };
   return <div style={styles}>{id + 1}</div>;

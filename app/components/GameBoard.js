@@ -5,10 +5,11 @@ const {UP, DOWN, LEFT, RIGHT} = require('../AppConstants');
 
 const STYLES = {
   board: {
-    width: '80vh',
-    height: '80vh',
-    margin: '5% auto',
-    border: '1px solid black',
+    width: '60vw',
+    height: '60vw',
+    maxWidth: '60vh',
+    maxHeight: '60vh',
+    border: '4px solid #aaa, 1px solid pink',
     position: 'relative'
   }
 };
