@@ -5,28 +5,23 @@ const {UP, DOWN, LEFT, RIGHT} = require('../AppConstants');
 
 const STYLES = {
   board: {
-    width: '80vh',
-    height: '80vh',
-    margin: '5% auto',
-    border: '1px solid black',
+    width: '60vw',
+    height: '60vw',
+    maxWidth: '60vh',
+    maxHeight: '60vh',
+    border: '4px solid #aaa, 1px solid pink',
     position: 'relative'
   }
 };
 
 const GameBoard = React.createClass({
-  propTypes: {
-    size: React.PropTypes.number
-  },
-  
-  getDefaultProps: function() {
-    return { 
-      size: 4
-    };
-  },
-  
   getInitialState: function() {
+    return this.getResetState(3);
+  },
+  
+  getResetState: function(size) {
     return {
-      board: BoardHelper.generateRandomBoard(this.props.size),
+      board: BoardHelper.generateRandomBoard(size),
       hintTileId: undefined
     };
   },
@@ -57,7 +52,7 @@ const GameBoard = React.createClass({
             <TileController
               id={id}
               coordinates={coordinates}
-              boardSize={this.props.size}
+              boardSize={Math.sqrt(this.state.board.length)}
               movableDirection={BoardHelper.getTileMovableDirection(this.state.board, id)}
               onMove={this.moveTile}
               isHinting={id === this.state.hintTileId}
@@ -76,16 +71,23 @@ const GameBoard = React.createClass({
     this.hideHint();
   },
   
-  showHint() {
+  showHint: function() {
+    alert('Out of service');
+    return false;
+    
     this.setState({
       hintTileId: BoardHelper.getShortestPath(this.state.board)[0]
     });
   },
   
-  hideHint() {
+  hideHint: function() {
     this.setState({
       hintTileId: undefined
     });
+  },
+  
+  resetBoard: function(size) {
+    this.setState(this.getResetState(size));
   },
   
   handleKeydown: function(evt) {

@@ -5,9 +5,12 @@
     "node": true
   },
   "plugins": ["react"],
-  "ecmaFeatures": {
-    "jsx": true,
-    "experimentalObjectRestSpread": true
+  "extends": ["plugin:react/recommended"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    }
   },
   "rules": {
     "camelcase": 0,
