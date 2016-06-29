@@ -1,5 +1,6 @@
 const Button = require('./Button');
 const React = require('react');
+const Select = require('./Select');
 const {StyleSheet, css} = require('aphrodite');
 
 const MainMenu = React.createClass({
@@ -12,6 +13,7 @@ const MainMenu = React.createClass({
     return (
       <div className={css(styles.backdrop, this.props.isOpen && styles.backdrop__show)}>
         <h1 className={css(styles.heading)}>Sliding Puzzle</h1>
+        <Select options={{'3x3': 3, '4x4': 4}} ref={(c) => this._select = c}/>
         <Button onClick={this.handleStartClick} style={{fontSize: '5vw'}}>
           Start
         </Button>
@@ -21,7 +23,7 @@ const MainMenu = React.createClass({
   
   handleStartClick: function() {
     this.props.onStart({
-      size: 4
+      size: this._select.value()
     });
   }
 });
@@ -48,6 +50,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: '12vw',
+    marginBottom: '0.33em',
     textShadow: `
       0.2em 0.1em 0 rgba(0, 100, 255, 0.7),
       -0.1em 0.2em 0 rgba(56, 44, 199, 0.7),

@@ -2,7 +2,6 @@ const React = require('react');
 const {StyleSheet, css} = require('aphrodite');
 
 const Button = function(props) {
-  console.log(props);
   return (
     <button {...props} type="button" className={css(styles.button)}>
       {props.children}

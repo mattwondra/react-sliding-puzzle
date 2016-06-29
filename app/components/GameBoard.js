@@ -15,18 +15,8 @@ const STYLES = {
 };
 
 const GameBoard = React.createClass({
-  propTypes: {
-    size: React.PropTypes.number
-  },
-  
-  getDefaultProps: function() {
-    return { 
-      size: 4
-    };
-  },
-  
   getInitialState: function() {
-    return this.getResetState(this.props.size);
+    return this.getResetState(3);
   },
   
   getResetState: function(size) {
@@ -62,7 +52,7 @@ const GameBoard = React.createClass({
             <TileController
               id={id}
               coordinates={coordinates}
-              boardSize={this.props.size}
+              boardSize={Math.sqrt(this.state.board.length)}
               movableDirection={BoardHelper.getTileMovableDirection(this.state.board, id)}
               onMove={this.moveTile}
               isHinting={id === this.state.hintTileId}
