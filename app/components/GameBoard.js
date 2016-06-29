@@ -72,9 +72,6 @@ const GameBoard = React.createClass({
   },
   
   showHint: function() {
-    alert('Out of service');
-    return false;
-    
     this.setState({
       hintTileId: BoardHelper.getShortestPath(this.state.board)[0]
     });
@@ -88,6 +85,16 @@ const GameBoard = React.createClass({
   
   resetBoard: function(size) {
     this.setState(this.getResetState(size));
+  },
+  
+  autoSolve: function() {
+    BoardHelper.getShortestPath(this.state.board).forEach((tileId, idx) => {
+      setTimeout(() => {
+        this.setState({
+          board: BoardHelper.moveTile(this.state.board, tileId)
+        });
+      }, 250 * idx);
+    });
   },
   
   handleKeydown: function(evt) {

@@ -40,7 +40,11 @@ const BoardHelper = {
     // flipping the same tile back and forth over and over
     let lastMovedTileId;
     
-    for (let i = 0; i < 30; i++) {
+    // TODO: Crank up difficulty by increasing max i value to 30ish. Keeping it
+    // lower for now because that makes the getShortestPath algorithm _kind of_ 
+    // work for now. Once it can efficiently handle longer paths, the difficulty
+    // can be re-adjusted.
+    for (let i = 0; i < 10; i++) {
       // Get all possible moves, _except_ the tile we last moved
       let movableTileIds = BoardHelper.getMovableTileIds(board).filter((id) => id !== lastMovedTileId);
       // Randomly pick one of the remaining tiles and move it
