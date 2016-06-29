@@ -26,8 +26,12 @@ const GameBoard = React.createClass({
   },
   
   getInitialState: function() {
+    return this.getResetState(this.props.size);
+  },
+  
+  getResetState: function(size) {
     return {
-      board: BoardHelper.generateRandomBoard(this.props.size),
+      board: BoardHelper.generateRandomBoard(size),
       hintTileId: undefined
     };
   },
@@ -77,16 +81,23 @@ const GameBoard = React.createClass({
     this.hideHint();
   },
   
-  showHint() {
+  showHint: function() {
+    alert('Out of service');
+    return false;
+    
     this.setState({
       hintTileId: BoardHelper.getShortestPath(this.state.board)[0]
     });
   },
   
-  hideHint() {
+  hideHint: function() {
     this.setState({
       hintTileId: undefined
     });
+  },
+  
+  resetBoard: function(size) {
+    this.setState(this.getResetState(size));
   },
   
   handleKeydown: function(evt) {

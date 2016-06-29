@@ -1,21 +1,47 @@
-const React = require('react');
+const Button = require('./Button');
 const GameBoard = require('./GameBoard');
+const MainMenu = require('./MainMenu');
+const React = require('react');
 const {StyleSheet, css} = require('aphrodite');
 
 const SlidingPuzzle = React.createClass({
+  getInitialState: function() {
+    return {
+      showMenu: true
+    };
+  },
+  
   render: function() {
     return (
       <div className={css(styles.wrapper)}>
         <div className={css(styles.gamePanel)}>
-          <GameBoard ref={(c) => this._gameBoard = c}/>
+          <GameBoard ref={(c) => this._gameBoard = c} />
         </div>
         <div className={css(styles.controlPanel)}>
-          <button type="button" className={css(styles.button)} onClick={this.showHint}>Hint</button>
-          <button type="button" className={css(styles.button)} onClick={this.showHint}>Hint</button>
-          <button type="button" className={css(styles.button)} onClick={this.showHint}>Hint</button>
+          <Button onClick={this.showHint}>Hint</Button>
+          <Button onClick={this.showHint}>Solve</Button>
+          <Button onClick={this.handleQuit}>Quit</Button>
         </div>
+        
+        <MainMenu isOpen={this.state.showMenu} onStart={this.handleStart} />
       </div>
     );
+  },
+  
+  handleStart: function(options) {
+    this._gameBoard.resetBoard(options.size);
+    this.setState({
+      showMenu: false
+    });
+  },
+  
+  handleQuit: function() {
+    // TODO: A custom modal here would be MUCH prettier
+    if (confirm('Are you sure you want to give up? I believe in you!')) {
+      this.setState({
+        showMenu: true
+      });
+    }
   },
   
   showHint() {
@@ -59,20 +85,7 @@ const styles = StyleSheet.create({
       paddingTop: 0,
       paddingLeft: '1rem',
     }
-  },
-  button: {
-    border: 'none',
-    background: '#eee',
-    padding: '1rem',
-    margin: '1rem',
-    width: '20vw',
-    cursor: 'pointer',
-    ':hover': {
-      background: 'red',
-      width: '14vw',
-    }
   }
-  
 });
 
 module.exports = SlidingPuzzle;
